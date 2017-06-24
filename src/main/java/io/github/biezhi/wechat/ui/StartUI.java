@@ -10,6 +10,7 @@ import io.github.biezhi.wechat.model.Const;
 import io.github.biezhi.wechat.model.Environment;
 import io.github.biezhi.wechat.model.GroupMessage;
 import io.github.biezhi.wechat.model.UserMessage;
+import io.github.biezhi.wechat.robot.MyRobot;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +35,12 @@ public class StartUI extends WechatApi {
 
     private QRCodeFrame qrCodeFrame;
 
+    private Environment environment;
+
     public StartUI(Environment environment) {
         super(environment);
+        this.environment = environment;
+        this.start();
     }
 
     public void setMsgHandle(MessageHandle messageHandle) {
@@ -104,6 +109,18 @@ public class StartUI extends WechatApi {
         }
         log.info(Const.LOG_MSG_CONTACT_COUNT, memberCount, memberList.size());
         log.info(Const.LOG_MSG_OTHER_CONTACT_COUNT, groupList.size(), contactList.size(), specialUsersList.size(), publicUsersList.size());
+
+        String groupUserName = "";
+        for (JsonElement element : groupList) {
+            JsonObject group = element.getAsJsonObject();
+            if (group.get("NickName").getAsString().equals("test")) {
+                groupUserName = group.get("UserName").getAsString();
+                break;
+            }
+//            log.info(element.toString());
+//             log.info(group.get("UserName").getAsString());
+        }
+        this.setMsgHandle(new MyRobot(this.environment, groupUserName));
 
         if (groupList.size() > 0) {
             executorService.execute(new Runnable() {

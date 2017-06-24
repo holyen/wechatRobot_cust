@@ -14,18 +14,14 @@ import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 /**
- * 茉莉机器人实现
- *
- * @author biezhi
- *         17/06/2017
+ * Created by holyen on 2017/6/22.
  */
-public class MoliRobot extends AbstractMessageHandler {
-
+public class MyRobot extends AbstractMessageHandler {
     private String baseUrl = "http://i.itpk.cn/api.php";
 
     private String groupUserName;
 
-    public MoliRobot(Environment environment, String groupUserName) {
+    public MyRobot(Environment environment, String groupUserName) {
         this.groupUserName = groupUserName;
         String apiKey = environment.get("moli.api_key");
         String apiSecret = environment.get("moli.api_secret");
@@ -41,11 +37,11 @@ public class MoliRobot extends AbstractMessageHandler {
         if (null == userMessage) {
             return;
         }
-        String text = userMessage.getText();
-        JsonObject raw_msg = userMessage.getRawMsg();
-        String toUid = raw_msg.get("FromUserName").getAsString();
-        String result = getResult(text);
-        userMessage.sendText(result, toUid);
+//        String text = userMessage.getText();
+//        JsonObject raw_msg = userMessage.getRawMsg();
+//        String toUid = raw_msg.get("FromUserName").getAsString();
+//        String result = getResult(text);
+//        userMessage.sendText(result, toUid);
     }
 
     @Override
@@ -58,7 +54,6 @@ public class MoliRobot extends AbstractMessageHandler {
         if (groupMessage.getGroupId().equals(this.groupUserName) && Utils.isNotBlank(text)) {
 //            groupMessage.sendText(groupMessage.toString(), groupMessage.getGroupId());
 
-
             if (text.substring(0, 1).equals("搜")) {
                 String searchContent = text.substring(1);
                 String returnContent = "@"+ fromNickName + searchContent +"\nhttp://91zuihuitao.com/index.php?r=l&kw=" + java.net.URLEncoder.encode(searchContent);
@@ -66,7 +61,6 @@ public class MoliRobot extends AbstractMessageHandler {
             }
 //            String result = getResult(groupMessage.getText());
 //            groupMessage.sendText(result, groupMessage.getGroupId());
-
         }
     }
 

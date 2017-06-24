@@ -24,6 +24,8 @@ public final class Utils {
 
     private static final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
+    public String selfUserName;//登录自己的UserName
+
     private Utils() {
     }
 
